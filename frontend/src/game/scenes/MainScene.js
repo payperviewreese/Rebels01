@@ -221,13 +221,22 @@ class MainScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.player) return;
+    if (!this.player) {
+      console.log("Player reference is missing in update!");
+      return;
+    }
     
     // Handle player movement
     this.handlePlayerMovement();
     
     // Check for interactable objects
     this.checkInteractables();
+    
+    // Debug info
+    if (this.cursors.left.isDown) console.log("Left key is down");
+    if (this.cursors.right.isDown) console.log("Right key is down");
+    if (this.cursors.up.isDown) console.log("Up key is down");
+    if (this.cursors.down.isDown) console.log("Down key is down");
   }
 
   handlePlayerMovement() {
