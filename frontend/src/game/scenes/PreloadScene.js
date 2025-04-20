@@ -31,16 +31,9 @@ class PreloadScene extends Phaser.Scene {
   }
 
   loadGameAssets() {
-    // Character assets
-    this.load.spritesheet('player', 'https://placehold.co/192x128/888888/ffffff.png?text=Player', { 
-      frameWidth: 32, 
-      frameHeight: 32 
-    });
-    
-    this.load.spritesheet('zombie', 'https://placehold.co/192x128/ff0000/ffffff.png?text=Zombie', { 
-      frameWidth: 32, 
-      frameHeight: 32 
-    });
+    // Simple colored squares for characters to avoid WebGL issues
+    this.load.image('player', 'https://placehold.co/32x32/00aa00/ffffff.png?text=Player');
+    this.load.image('zombie', 'https://placehold.co/32x32/aa0000/ffffff.png?text=Zombie');
     
     // Tileset for the map
     this.load.image('tileset', 'https://placehold.co/512x512/555555/ffffff.png?text=Tilemap');
