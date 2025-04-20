@@ -113,15 +113,28 @@ class MainScene extends Phaser.Scene {
   }
 
   createPlayer() {
-    // Add player sprite
-    this.player = this.physics.add.sprite(1500, 1500, 'player');
+    // Add player sprite - placing closer to center of screen
+    this.player = this.physics.add.sprite(400, 300, 'player');
     this.player.setCollideWorldBounds(true);
+    
+    // Make player more visible for debugging
+    this.player.setTint(0x00ff00);
     
     // Set up physics
     this.physics.add.collider(this.player, this.buildingColliders);
     
-    // Set initial animation
-    this.player.anims.play('player_idle_down');
+    // Set initial animation (with error handling)
+    try {
+      this.player.anims.play('player_idle_down');
+    } catch (error) {
+      console.error("Error playing animation:", error);
+      // Fallback to simple rectangle if animation fails
+      const graphics = this.add.graphics();
+      graphics.fillStyle(0x00ff00);
+      graphics.fillRect(this.player.x - 16, this.player.y - 16, 32, 32);
+    }
+    
+    console.log("Player created at", this.player.x, this.player.y);
   }
 
   createInteractables() {
