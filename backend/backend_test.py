@@ -50,7 +50,7 @@ class GameAPITester:
 
 def main():
     # Get backend URL from environment
-    backend_url = "https://5173-k8s-backend-default.app.coder.com/api"
+    backend_url = "https://252a0815-11d0-452c-ae16-f5064ddc3703.preview.emergentagent.com/api"
     
     # Setup tester
     tester = GameAPITester(backend_url)
