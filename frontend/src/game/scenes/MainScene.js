@@ -443,38 +443,19 @@ class MainScene extends Phaser.Scene {
     // Handle movement
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-speed);
-      this.player.anims.play('player_walk_left', true);
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(speed);
-      this.player.anims.play('player_walk_right', true);
     }
     
     if (this.cursors.up.isDown) {
       this.player.setVelocityY(-speed);
-      if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
-        this.player.anims.play('player_walk_up', true);
-      }
     } else if (this.cursors.down.isDown) {
       this.player.setVelocityY(speed);
-      if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
-        this.player.anims.play('player_walk_down', true);
-      }
     }
     
-    // Handle idle animations
-    if (this.player.body.velocity.x === 0 && this.player.body.velocity.y === 0) {
-      const currentAnim = this.player.anims.currentAnim;
-      if (currentAnim) {
-        if (currentAnim.key === 'player_walk_left') {
-          this.player.anims.play('player_idle_left');
-        } else if (currentAnim.key === 'player_walk_right') {
-          this.player.anims.play('player_idle_right');
-        } else if (currentAnim.key === 'player_walk_up') {
-          this.player.anims.play('player_idle_up');
-        } else if (currentAnim.key === 'player_walk_down') {
-          this.player.anims.play('player_idle_down');
-        }
-      }
+    // Update debug text
+    if (this.playerPosText) {
+      this.playerPosText.setText(`Player: ${Math.round(this.player.x)}, ${Math.round(this.player.y)}`);
     }
   }
 
