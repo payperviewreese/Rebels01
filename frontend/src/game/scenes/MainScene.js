@@ -50,6 +50,9 @@ class MainScene extends Phaser.Scene {
     graphics.fillStyle(0x222222); // Dark gray for streets
     graphics.fillRect(0, 0, 3000, 3000);
     
+    // Add collisions for buildings
+    this.buildingColliders = this.physics.add.staticGroup();
+    
     // Draw some buildings
     this.createBuilding(graphics, 100, 100, 300, 200, 0x555555, 'Pharmacy');
     this.createBuilding(graphics, 500, 100, 350, 250, 0x777777, 'Hardware Store');
@@ -57,9 +60,6 @@ class MainScene extends Phaser.Scene {
     this.createBuilding(graphics, 600, 450, 350, 350, 0x888888, 'Shopping Center');
     this.createBuilding(graphics, 1000, 200, 300, 400, 0x999999, 'Zoo');
     this.createBuilding(graphics, 1100, 700, 250, 150, 0x444444, 'Pier');
-    
-    // Add collisions for buildings
-    this.buildingColliders = this.physics.add.staticGroup();
     
     // World bounds
     this.physics.world.setBounds(0, 0, 3000, 3000);
