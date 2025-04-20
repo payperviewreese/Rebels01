@@ -462,6 +462,12 @@ class MainScene extends Phaser.Scene {
   checkInteractables() {
     let foundInteractable = false;
     
+    // Remove old highlight if it exists
+    if (this.interactHighlight) {
+      this.interactHighlight.destroy();
+      this.interactHighlight = null;
+    }
+    
     // Check each interactable
     this.interactables.getChildren().forEach(object => {
       const distance = Phaser.Math.Distance.Between(
@@ -469,12 +475,30 @@ class MainScene extends Phaser.Scene {
         object.x, object.y
       );
       
-      // If player is close enough
-      if (distance < 50) {
+      // If player is close enough (increased range for easier interaction)
+      if (distance < 70) {
         this.interactableObject = object;
         foundInteractable = true;
         
-        // Show interaction prompt
+        // Add visual highlight around interactable object
+        this.interactHighlight = this.add.graphics();
+        this.interactHighlight.lineStyle(2, 0xffff00);
+        this.interactHighlight.strokeCircle(object.x, object.y, 25);
+        
+        // Add floating text "Press E" above object
+        if (!this.interactText) {
+          this.interactText = this.add.text(object.x, object.y - 30, 'Press E', {
+            font: '14px Arial',
+            fill: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 5, y: 2 }
+          }).setOrigin(0.5);
+        } else {
+          this.interactText.setPosition(object.x, object.y - 30);
+          this.interactText.setVisible(true);
+        }
+        
+        // Show interaction prompt in UI
         if (window.gameEvents) {
           window.gameEvents.emit('showInteractPrompt', { name: object.name });
         }
@@ -482,11 +506,85 @@ class MainScene extends Phaser.Scene {
     });
     
     // If no interactable found nearby, clear the current one
-    if (!foundInteractable && this.interactableObject) {
-      this.interactableObject = null;
-      if (window.gameEvents) {
-        window.gameEvents.emit('hideInteractPrompt');
+    if (!foundInteractable) {
+      if (this.interactableObject) {
+        this.interactableObject = null;
+        if (window.gameEvents) {
+          window.gameEvents.emit('hideInteractPrompt');
+        }
       }
+      
+      // Hide the text prompt
+      if (this.interactText) {
+        this.interactText.setVisible(false);
+      }
+    }
+    
+    // Check building doors too
+    this.checkBuildingInteractions();
+  }
+  
+  checkBuildingInteractions() {
+    // Here we would check for building door interactions
+    // For now, we'll just place some visible indicators near the doors
+    
+    // This is just for demonstration - in a full implementation
+    // we would have proper door zones to check against
+    const doorLocations = [
+      { x: 250, y: 100, name: 'Pharmacy' },      // Pharmacy door
+      { x: 675, y: 100, name: 'Hardware Store' }, // Hardware Store door
+      { x: 300, y: 400, name: 'School' },        // School door
+      { x: 775, y: 450, name: 'Shopping Center' } // Shopping Center door
+    ];
+    
+    let nearDoor = false;
+    
+    doorLocations.forEach(door => {
+      const distance = Phaser.Math.Distance.Between(
+        this.player.x, this.player.y,
+        door.x, door.y
+      );
+      
+      if (distance < 70) {
+        nearDoor = true;
+        
+        // Create a temporary door object for interaction
+        const doorObj = { type: 'door', name: door.name };
+        this.interactableObject = doorObj;
+        
+        // Add visual highlight
+        if (this.interactHighlight) {
+          this.interactHighlight.destroy();
+        }
+        
+        this.interactHighlight = this.add.graphics();
+        this.interactHighlight.lineStyle(2, 0x00ffff);
+        this.interactHighlight.strokeRect(door.x - 20, door.y - 20, 40, 40);
+        
+        // Add floating text "Press E to enter" above door
+        if (!this.interactText) {
+          this.interactText = this.add.text(door.x, door.y - 30, 'Press E to enter', {
+            font: '14px Arial',
+            fill: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 5, y: 2 }
+          }).setOrigin(0.5);
+        } else {
+          this.interactText.setPosition(door.x, door.y - 30);
+          this.interactText.setText('Press E to enter');
+          this.interactText.setVisible(true);
+        }
+        
+        // Show interaction prompt
+        if (window.gameEvents) {
+          window.gameEvents.emit('showInteractPrompt', { name: door.name + ' entrance' });
+        }
+      }
+    });
+    
+    // If we were near a door but not an item, and now we're not near anything
+    if (!nearDoor && !this.interactableObject && this.interactText) {
+      this.interactText.setVisible(false);
     }
   }
 }
