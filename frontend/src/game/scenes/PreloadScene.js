@@ -49,78 +49,8 @@ class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    // Create animations
-    this.createAnimations();
-    
     // Start the game
     this.scene.start('MainScene');
-  }
-
-  createAnimations() {
-    // Player animations
-    this.anims.create({
-      key: 'player_idle_down',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_walk_down',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 2 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_idle_up',
-      frames: this.anims.generateFrameNumbers('player', { start: 3, end: 3 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_walk_up',
-      frames: this.anims.generateFrameNumbers('player', { start: 3, end: 5 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_idle_right',
-      frames: this.anims.generateFrameNumbers('player', { start: 6, end: 6 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_walk_right',
-      frames: this.anims.generateFrameNumbers('player', { start: 6, end: 8 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_idle_left',
-      frames: this.anims.generateFrameNumbers('player', { start: 9, end: 9 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    
-    this.anims.create({
-      key: 'player_walk_left',
-      frames: this.anims.generateFrameNumbers('player', { start: 9, end: 11 }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    // Zombie animations
-    this.anims.create({
-      key: 'zombie_walk',
-      frames: this.anims.generateFrameNumbers('zombie', { start: 0, end: 2 }),
-      frameRate: 5,
-      repeat: -1
-    });
   }
 }
 
