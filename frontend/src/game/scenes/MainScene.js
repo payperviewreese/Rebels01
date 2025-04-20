@@ -117,22 +117,20 @@ class MainScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(400, 300, 'player');
     this.player.setCollideWorldBounds(true);
     
-    // Make player more visible for debugging
-    this.player.setTint(0x00ff00);
+    // Set player size for better collision
+    this.player.setSize(24, 24);
+    this.player.setDisplaySize(32, 32);
     
     // Set up physics
     this.physics.add.collider(this.player, this.buildingColliders);
     
-    // Set initial animation (with error handling)
-    try {
-      this.player.anims.play('player_idle_down');
-    } catch (error) {
-      console.error("Error playing animation:", error);
-      // Fallback to simple rectangle if animation fails
-      const graphics = this.add.graphics();
-      graphics.fillStyle(0x00ff00);
-      graphics.fillRect(this.player.x - 16, this.player.y - 16, 32, 32);
-    }
+    // Add debug text for player position
+    this.playerPosText = this.add.text(10, 50, 'Player: 0, 0', { 
+      font: '12px Arial', 
+      fill: '#ffffff',
+      backgroundColor: '#000000' 
+    });
+    this.playerPosText.setScrollFactor(0); // Fix to camera
     
     console.log("Player created at", this.player.x, this.player.y);
   }
