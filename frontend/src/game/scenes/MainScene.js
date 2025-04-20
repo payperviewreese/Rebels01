@@ -182,18 +182,76 @@ class MainScene extends Phaser.Scene {
   handleInteraction(object) {
     if (object.type === 'door') {
       // Handle entering a building
+      let dialogText = `Entering ${object.name}...`;
+      let options = [
+        { text: "Go inside", action: "enter" },
+        { text: "Not now", action: "cancel" }
+      ];
+      
+      // Add custom dialogue based on location
+      if (object.name === 'Pharmacy') {
+        dialogText = "The pharmacy looks ransacked but might still have medical supplies. I should check inside.";
+      } else if (object.name === 'Hardware Store') {
+        dialogText = "The hardware store could have tools I need. Might find bolt cutters here.";
+      } else if (object.name === 'School') {
+        dialogText = "The school might be a good place to find survivors. Could be dangerous though.";
+      } else if (object.name === 'Shopping Center') {
+        dialogText = "The shopping center is large and might have food and supplies. But there could be many zombies inside.";
+      }
+      
       if (window.gameEvents) {
         window.gameEvents.emit('showDialog', {
           name: "Jamie",
-          text: `Entering ${object.name}...`,
+          text: dialogText,
+          options: options
+        });
+      }
+    } else if (object.name === 'Key') {
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "A small key... looks like it might open a locker or small cabinet. Could be useful.",
           options: [
-            { text: "Go inside", action: "enter" },
-            { text: "Not now", action: "cancel" }
+            { text: "Take it", action: "pickup" },
+            { text: "Leave it", action: "cancel" }
+          ]
+        });
+      }
+    } else if (object.name === 'Bolt Cutters') {
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "Heavy-duty bolt cutters. These could cut through chains and padlocks. I might need them to access the pharmacy.",
+          options: [
+            { text: "Take it", action: "pickup" },
+            { text: "Leave it", action: "cancel" }
+          ]
+        });
+      }
+    } else if (object.name === 'Medkit') {
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "A first aid kit. Could be a lifesaver if I get injured. I should take it.",
+          options: [
+            { text: "Take it", action: "pickup" },
+            { text: "Leave it", action: "cancel" }
+          ]
+        });
+      }
+    } else if (object.name === 'Baseball Bat') {
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "A sturdy wooden baseball bat. Not the best weapon, but it could keep zombies at bay.",
+          options: [
+            { text: "Take it", action: "pickup" },
+            { text: "Leave it", action: "cancel" }
           ]
         });
       }
     } else {
-      // Handle picking up an item
+      // Generic handler for other items
       if (window.gameEvents) {
         window.gameEvents.emit('showDialog', {
           name: "Jamie",
