@@ -239,17 +239,25 @@ class MainScene extends Phaser.Scene {
       return;
     }
     
+    // Store previous position for change detection
+    const prevX = this.player.x;
+    const prevY = this.player.y;
+    
     // Handle player movement
     this.handlePlayerMovement();
     
+    // If player position changed, emit event for UI
+    if (prevX !== this.player.x || prevY !== this.player.y) {
+      if (window.gameEvents) {
+        window.gameEvents.emit('playerMove', {
+          x: this.player.x,
+          y: this.player.y
+        });
+      }
+    }
+    
     // Check for interactable objects
     this.checkInteractables();
-    
-    // Debug info
-    if (this.cursors.left.isDown) console.log("Left key is down");
-    if (this.cursors.right.isDown) console.log("Right key is down");
-    if (this.cursors.up.isDown) console.log("Up key is down");
-    if (this.cursors.down.isDown) console.log("Down key is down");
   }
 
   handlePlayerMovement() {
