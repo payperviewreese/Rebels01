@@ -428,10 +428,21 @@ class MainScene extends Phaser.Scene {
           y: this.player.y
         });
       }
+      
+      // Also force update the position text
+      if (this.playerPosText) {
+        this.playerPosText.setText(`Player: ${Math.round(this.player.x)}, ${Math.round(this.player.y)}`);
+        this.playerPosText.setVisible(true);
+      }
     }
     
     // Check for interactable objects
     this.checkInteractables();
+    
+    // Check for interaction key press
+    if (Phaser.Input.Keyboard.JustDown(this.interactKey) && this.interactableObject) {
+      this.handleInteraction(this.interactableObject);
+    }
   }
 
   handlePlayerMovement() {
