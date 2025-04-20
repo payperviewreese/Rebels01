@@ -275,16 +275,134 @@ class MainScene extends Phaser.Scene {
           image: this.interactableObject.texture.key
         });
       }
+      
+      // Special feedback based on item
+      if (this.interactableObject.name === 'Bolt Cutters') {
+        if (window.gameEvents) {
+          setTimeout(() => {
+            window.gameEvents.emit('showDialog', {
+              name: "Jamie",
+              text: "These bolt cutters will help me access areas blocked by chains. The pharmacy's gate was chained shut - I should try there.",
+              options: [
+                { text: "Continue", action: "continue" }
+              ]
+            });
+          }, 500);
+        }
+      } else if (this.interactableObject.name === 'Baseball Bat') {
+        if (window.gameEvents) {
+          setTimeout(() => {
+            window.gameEvents.emit('showDialog', {
+              name: "Jamie",
+              text: "This bat should help me fight off zombies. I'll need to get close though.",
+              options: [
+                { text: "Continue", action: "continue" }
+              ]
+            });
+          }, 500);
+        }
+      }
+      
       this.interactableObject.destroy();
       this.interactableObject = null;
     } else if (choice === 'enter') {
-      // Handle entering building
+      // Handle entering building based on which building
+      if (object.name === 'Pharmacy') {
+        if (window.gameEvents) {
+          window.gameEvents.emit('showDialog', {
+            name: "Jamie",
+            text: "The pharmacy is a mess. Shelves are toppled, and medications are scattered everywhere. I should look for any useful supplies.",
+            options: [
+              { text: "Search for medicine", action: "search_pharmacy" },
+              { text: "Leave", action: "exit_building" }
+            ]
+          });
+        }
+      } else if (object.name === 'Hardware Store') {
+        if (window.gameEvents) {
+          window.gameEvents.emit('showDialog', {
+            name: "Jamie",
+            text: "Tools and equipment are still on the shelves. This place hasn't been looted much yet. I might find something useful for defense or breaking into locked areas.",
+            options: [
+              { text: "Search for tools", action: "search_hardware" },
+              { text: "Leave", action: "exit_building" }
+            ]
+          });
+        }
+      } else if (object.name === 'School') {
+        if (window.gameEvents) {
+          window.gameEvents.emit('showDialog', {
+            name: "Jamie",
+            text: "The school hallways are dark and silent. There are signs of evacuation, but no people. I hear strange noises coming from the gymnasium.",
+            options: [
+              { text: "Check classrooms", action: "search_school" },
+              { text: "Head to gymnasium", action: "school_gym" },
+              { text: "Leave", action: "exit_building" }
+            ]
+          });
+        }
+      } else {
+        // Generic building entry
+        if (window.gameEvents) {
+          window.gameEvents.emit('showDialog', {
+            name: "Jamie",
+            text: `You enter the ${object.name}. The inside is dark and eerie.`,
+            options: [
+              { text: "Continue exploring", action: "continue" },
+              { text: "Leave", action: "exit_building" }
+            ]
+          });
+        }
+      }
+    } else if (choice === 'search_pharmacy') {
+      // Pharmacy search logic
       if (window.gameEvents) {
         window.gameEvents.emit('showDialog', {
           name: "Jamie",
-          text: `You enter the ${object.name}. The inside is dark and eerie.`,
+          text: "After searching through the mess, I find some useful medications. There's also a voice message playing on repeat from the pharmacy phone.",
           options: [
-            { text: "Continue exploring", action: "continue" }
+            { text: "Take medications", action: "take_meds" },
+            { text: "Listen to message", action: "listen_message" }
+          ]
+        });
+      }
+    } else if (choice === 'listen_message') {
+      // Story progression - Nicole's message
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Voice Message",
+          text: "This is Nicole calling from the school. My daughter Charlie is sick and needs medication. If anyone is at the pharmacy, please bring antibiotics to the school. We're hiding in the science lab. Please hurry, she's getting worse...",
+          options: [
+            { text: "I should head to the school", action: "continue" }
+          ]
+        });
+      }
+    } else if (choice === 'take_meds') {
+      // Add antibiotics to inventory
+      if (window.gameEvents) {
+        window.gameEvents.emit('addToInventory', {
+          name: "Antibiotics",
+          description: "Medicine that could help someone who is sick.",
+          image: "medkit"
+        });
+        
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "These antibiotics might be what Nicole needs for her daughter. I should head to the school and look for them in the science lab.",
+          options: [
+            { text: "Continue", action: "continue" }
+          ]
+        });
+      }
+    } else if (choice === 'search_hardware') {
+      // Hardware store search
+      if (window.gameEvents) {
+        window.gameEvents.emit('showDialog', {
+          name: "Jamie",
+          text: "I find a cabinet that seems to contain high-value tools, but it's locked. There might be a key somewhere.",
+          options: [
+            { text: "Look for key", action: "search_key" },
+            { text: "Try another area", action: "continue" }
           ]
         });
       }
