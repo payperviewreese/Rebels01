@@ -139,32 +139,62 @@ class MainScene extends Phaser.Scene {
     // Create interactable objects
     this.interactables = this.physics.add.group();
     
-    // Add a key item
-    const key = this.physics.add.sprite(300, 350, 'key');
+    // Add a key item - place close to starting position for easy testing
+    const key = this.physics.add.sprite(450, 350, 'key');
+    key.setDisplaySize(32, 32);
     key.name = 'Key';
     key.description = 'A small key that might open something.';
     this.interactables.add(key);
     
-    // Add bolt cutters
-    const boltCutters = this.physics.add.sprite(600, 350, 'boltCutters');
+    // Add bolt cutters - place close to starting position for testing
+    const boltCutters = this.physics.add.sprite(500, 400, 'boltCutters');
+    boltCutters.setDisplaySize(32, 32);
     boltCutters.name = 'Bolt Cutters';
     boltCutters.description = 'Heavy-duty bolt cutters. Could cut through chains.';
     this.interactables.add(boltCutters);
     
     // Add a medkit
-    const medkit = this.physics.add.sprite(800, 550, 'medkit');
+    const medkit = this.physics.add.sprite(400, 450, 'medkit');
+    medkit.setDisplaySize(32, 32);
     medkit.name = 'Medkit';
     medkit.description = 'A first aid kit that can restore health.';
     this.interactables.add(medkit);
     
     // Add a weapon
-    const bat = this.physics.add.sprite(1000, 650, 'bat');
+    const bat = this.physics.add.sprite(350, 400, 'bat');
+    bat.setDisplaySize(32, 32);
     bat.name = 'Baseball Bat';
     bat.description = 'A sturdy wooden baseball bat. Good for self-defense.';
     this.interactables.add(bat);
     
-    // Set up overlap detection for interactables
-    this.physics.add.overlap(this.player, this.interactables, this.handleOverlap, null, this);
+    // Add text labels for each item (for better visibility)
+    this.add.text(key.x, key.y + 25, 'Key', { 
+      font: '12px Arial', 
+      fill: '#ffffff',
+      backgroundColor: '#000000',
+      padding: { x: 3, y: 1 }
+    }).setOrigin(0.5);
+    
+    this.add.text(boltCutters.x, boltCutters.y + 25, 'Bolt Cutters', { 
+      font: '12px Arial', 
+      fill: '#ffffff',
+      backgroundColor: '#000000',
+      padding: { x: 3, y: 1 }
+    }).setOrigin(0.5);
+    
+    this.add.text(medkit.x, medkit.y + 25, 'Medkit', { 
+      font: '12px Arial', 
+      fill: '#ffffff',
+      backgroundColor: '#000000',
+      padding: { x: 3, y: 1 }
+    }).setOrigin(0.5);
+    
+    this.add.text(bat.x, bat.y + 25, 'Bat', { 
+      font: '12px Arial', 
+      fill: '#ffffff',
+      backgroundColor: '#000000',
+      padding: { x: 3, y: 1 }
+    }).setOrigin(0.5);
   }
 
   handleOverlap(player, object) {
