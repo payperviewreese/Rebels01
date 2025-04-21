@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: Rebels01
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build
+    plan: free
