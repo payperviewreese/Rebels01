@@ -9,6 +9,7 @@ export default class SplashScene extends Phaser.Scene {
   }
 
   create() {
+    console.log('SplashScreen created'); // Debugging log
     const { width, height } = this.scale;
 
     // Background image (optional, if you have one)
