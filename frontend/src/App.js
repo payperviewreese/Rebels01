@@ -5,6 +5,7 @@ import './App.css';
 
 // Game configuration and scenes
 import config from './game/config';
+import SplashScene from './game/scenes/SplashScene';
 import BootScene from './game/scenes/BootScene';
 import PreloadScene from './game/scenes/PreloadScene';
 import MainScene from './game/scenes/MainScene';
@@ -18,26 +19,23 @@ import HUD from './components/HUD';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function App() {
-  const [gameReady, setGameReady] = useState(false);
   const [gameEvents] = useState(new EventEmitter());
 
   useEffect(() => {
-    // Make the event emitter available to the Phaser game
+    // Make the event emitter available globally
     window.gameEvents = gameEvents;
-    
-    // Initialize Phaser game
+
+    // Create Phaser game config with all scenes, starting with SplashScene
     const gameConfig = {
       ...config,
-      scene: [BootScene, PreloadScene, MainScene]
+      scene: [SplashScene, BootScene, PreloadScene, MainScene]
     };
-    
-    // Create the game instance
+
+    // Initialize the Phaser game
     const game = new Phaser.Game(gameConfig);
-    
-    // Make the game instance globally available
     window.game = game;
-    
-    // Clean up
+
+    // Clean up on unmount
     return () => {
       game.destroy(true);
       delete window.game;
@@ -47,10 +45,10 @@ function App() {
 
   return (
     <div className="game-container">
-      {/* Phaser game container */}
+      {/* Phaser game mounts here */}
       <div id="phaser-game"></div>
-      
-      {/* UI overlay */}
+
+      {/* UI overlay components */}
       <div className="ui-overlay">
         <Loading gameEvents={gameEvents} />
         <Dialog gameEvents={gameEvents} />
