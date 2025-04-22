@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import SplashScene from '../scenes/SplashScene';
-import MainScene from '../scenes/MainScene';
+import SplashScene from './scenes/SplashScene';
+import MainScene from './scenes/MainScene';
 
 // Game configuration
 const config = {
