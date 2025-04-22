@@ -38,7 +38,7 @@ export default class SplashScene extends Phaser.Scene {
       .on('pointerout', () => startButton.setStyle({ backgroundColor: '#8B0000' }))
       .on('pointerdown', () => {
         // Start BootScene instead of jumping directly to MainScene
-        this.scene.start('BootScene');
+        this.scene.start('MainScene');
       });
   }
 }
