@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
+import SplashScene from '../scenes/SplashScene';
+import MainScene from '../scenes/MainScene';
 
 // Game configuration
 const config = {
-  type: Phaser.CANVAS, // Use Canvas instead of WebGL for better compatibility
+  type: Phaser.AUTO,
   width: 800,
   height: 600,
   parent: 'phaser-game',
+  backgroundColor: '#000000',
   pixelArt: true,
   physics: {
     default: 'arcade',
@@ -18,11 +21,13 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  backgroundColor: '#000000',
   render: {
     pixelArt: true,
     antialias: false
-  }
+  },
+  scene: [SplashScene, MainScene] // SplashScene loads first
 };
+
+const game = new Phaser.Game(config);
 
 export default config;
