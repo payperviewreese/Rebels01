@@ -25,7 +25,7 @@ const config = {
     pixelArt: true,
     antialias: false
   },
-  scene: [SplashScene, MainScene] // SplashScene loads first
+  scene: [MainScene] // SplashScene loads first
 };
 
 const game = new Phaser.Game(config);
