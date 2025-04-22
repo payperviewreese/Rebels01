@@ -5,7 +5,7 @@ export default class SplashScene extends Phaser.Scene {
 
   preload() {
     // Optional: Load your title background or logo
-    this.load.image('title_bg', 'assets/title_bg.png');
+    this.load.image('title_bg', 'assets/title_bg.jpg');
   }
 
   create() {
